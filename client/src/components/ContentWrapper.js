@@ -4,6 +4,7 @@ import FaCircleONotch from 'react-icons/lib/fa/circle-o-notch';
 import FaCheckSquareO from 'react-icons/lib/fa/check-square-o';
 import base64 from 'base-64';
 
+
 class ContentWrapper extends Component {
 
   constructor (props) {
@@ -29,7 +30,11 @@ class ContentWrapper extends Component {
           this.fetchApicCatalogs(value);
           break;
         case 'selectedCatalog':
+            console.log("value: "+value);
           this.fetchApicApis(this.state.selectedProviderOrg, value);
+          break;
+        case 'selectedApi':
+          this.fetchApicSwagger(this.state.selectedProviderOrg, this.state.selectedCatalog,value);
           break;
         case 'selectedCfApp':
           this.fetchCfRoutes(value);
@@ -103,33 +108,69 @@ class ContentWrapper extends Component {
     this.setLoading('apicApis', true);
     console.log(`fetching APIC apis for org: ${orgId}; catalog: ${catalogId}`);
     if (!config) {
-      config = this.state.mgmtConfig;
+        config = this.state.mgmtConfig;
     }
     if (config.managementServer && config.username && config.password) {
-      let auth = base64.encode(`${config.username}:${config.password}`);
-      fetch(`/mgmt/orgs/${orgId}/catalogs/${catalogId}/apis`, {
-        headers: {
-          managementServer: config.managementServer,
-          authorization: `Basic ${auth}`,
-        },
-      })
-        .then(result => result.json())
-        .then(apis => {
-          apis = apis.map(api => {
-            if(api.apiEndpoints.length){
-              api.targetUrl = api.apiEndpoints[0].endpointUrl;
-            }
-            return api;
-          });
-          this.setState({
-            apis: apis,
-          });
-          this.setLoading('apicApis', false);
+        let auth = base64.encode(`${config.username}:${config.password}`);
+        fetch(`/mgmt/orgs/${orgId}/catalogs/${catalogId}/apis`, {
+            headers: {
+                managementServer: config.managementServer,
+                authorization: `Basic ${auth}`,
+            },
+        })
+            .then(result => result.json())
+            .then(apis => {
+                apis = apis.map(api => {
+                    if(api.apiEndpoints && api.apiEndpoints.length){
+                        api.targetUrl = api.apiEndpoints[0].endpointUrl;
+                    } else {
+                        api.targetUrl = api.apiEndpoint;
+                    }
+                    return api;
+                });
+                this.setState({
+                    apis: apis,
+                });
+                this.setLoading('apicApis', false);
+            });
+    } else {
+        console.log('missing value in fetchApicApis...skipping');
+    }
+}
+fetchApicSwagger(orgId, catalogId,apiId, config) {
+
+    this.setLoading('apicSwagger', true);
+
+    console.log(`fetching APIC swagger for org: ${orgId}; catalog: ${catalogId}; api: ${apiId}`);
+    if (!config) {
+        config = this.state.mgmtConfig;
+    }
+    if (config.managementServer && config.username && config.password) {
+        let auth = base64.encode(`${config.username}:${config.password}`);
+        fetch(`${config.managementServer}/v1/orgs/${orgId}/environments/${catalogId}/apis/${apiId}`, {
+            headers: {
+                managementServer: config.managementServer,
+                accept:  'application/vnd.ibm-apim.swagger2+json',
+                authorization: `Basic ${auth}`,
+            },
+        })
+
+        .then(result =>  result.json())
+        .then(swagger => {
+            let paths = Object.keys(swagger.paths);
+            this.setState({
+                swagger: paths,
+            });
+            this.setLoading('apicSwagger', false);
+            return swagger;
+        })
+        .catch(function(reason){
+            console.log("caught error on fetch swagger "+reason);
         });
     } else {
-      console.log('missing value in fetchApicApis...skipping');
+        console.log('missing value in fetchApicSwagger...skipping');
     }
-  }
+}
 
   fetchCfApps(config) {
     this.setLoading('cfApps', true);
@@ -184,17 +225,32 @@ class ContentWrapper extends Component {
   handleBind() {
     this.setLoading('bind', true);
     let routeId = this.state.selectedCfRoute;
-    let targetUrl = this.state.selectedApi;
-    console.log(`in handleBind. routeId: ${routeId}; targetUrl: ${targetUrl}`);
+    let apiId = this.state.selectedApi;
+    // find right entry in array
+    let targetUrl = '';
+    let path = '';
+    let paths=this.state.apis;
+
+    for (var i = 0; i < paths.length; i++) {
+          if (paths[i].apiId === apiId) {
+              path = paths[i].apiName;
+              targetUrl = paths[i].targetUrl;
+              break;
+          }
+      }
+
+    if (path == undefined)
+        console.log("HandleBind: could not find apiName.")
+    console.log(`in handleBind. routeId: ${routeId}; targetUrl: ${targetUrl} path: ${path}`);
     fetch(`/cf/routes/${routeId}/bind`, {
-      method: 'post',
+      method: 'POST',
       headers: {
         server: this.state.cfConfig.server,
         authorization: this.state.cfConfig.token,
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        targetUrl: targetUrl,
+        targetUrl: targetUrl+'/'+path,
       }),
     })
       .then(result => result.json())
@@ -358,7 +414,7 @@ class ContentWrapper extends Component {
                           <Col md={8}>
                             <FormControl componentClass="select" disabled={!this.state.selectedProviderOrg || !this.state.selectedCatalog} value={this.state.selectedApi} onChange={this.handleChange('selectedApi').bind(this)}>
                               <option value="">{(!this.state.selectedProviderOrg || !this.state.selectedCatalog) ? 'Select a catalog to enable' : 'Select an API'}</option>
-                              {this.state.apis && this.state.apis.map(api => <option key={api.id} value={api.targetUrl}>{api.apiName}</option>)}
+                              {this.state.apis && this.state.apis.map(api => <option key={api.apiId} value={api.apiId}>{api.apiName}</option>)}
                             </FormControl>
                           </Col>
                           { this.state.loading.apicApis &&
@@ -371,6 +427,32 @@ class ContentWrapper extends Component {
                           </Col>
                         </Row>
                       </FormGroup>
+                    </Row>
+
+                    <Row>
+                    <FormGroup controlId="mgmtArtifacts-swagger">
+                        <Row>
+                        <Col md={8}>
+                        <ControlLabel>Path</ControlLabel>
+                        </Col>
+                        </Row>
+                        <Row>
+                        <Col md={8}>
+                          <FormControl componentClass="select" disabled={!this.state.selectedProviderOrg || !this.state.selectedCatalog || !this.state.selectedApi} value={this.state.selectedSwagger} onChange={this.handleChange('selectedSwagger').bind(this)}>
+                            <option value="">{(!this.state.selectedProviderOrg || !this.state.selectedCatalog || !this.state.SelectedApi) ? 'Select an path (operation) to enable' : 'Select a Path'}</option>
+                              { this.state.swagger && this.state.swagger.map(path => <option key={path} value={path}>{path}</option>)}
+                          </FormControl>
+                        </Col>
+                        { this.state.loading.apicSwagger &&
+                          <Col md={1}>
+                            <FaCircleONotch className='spinnerIcon'/>
+                          </Col>
+                        }
+                        <Col md={4}>
+                          <Button bsStyle="primary" className='button hidden' onClick={this.fetchApicSwagger.bind(this)}>Refresh</Button>
+                        </Col>
+                        </Row>
+                    </FormGroup>
                     </Row>
                   </div>
                 }

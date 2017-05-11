@@ -44,4 +44,17 @@ router.get('/orgs/:orgId/catalogs/:catalogId/apis', (req, res) => {
     });
 });
 
+router.get('/orgs/:orgId/catalogs/:catalogId/apis/:apiId', (req, res) => {
+    let managementServer = req.headers.managementserver;
+    let managementAuth = req.headers.authorization;
+    mgmtApis.getSwagger(req.params.orgId, req.params.catalogId, req.params.apiId, managementServer, managementAuth)
+    .then(swagger => {
+        console.log("fetch response: "+swagger);
+        res.send(swagger)
+    })
+    .catch(err => {
+      logger.error(err);
+      res.status(err.statusCode).send(err.error || err);
+    });
+});
 module.exports = router;

@@ -20,7 +20,7 @@
     "nconf": "^0.8.4",
     "nconf-yaml": "^1.0.2",
     "request": "^2.81.0",
-    "request-promise": "^4.2.0",
+    "request-promise": "^4.2.1",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {

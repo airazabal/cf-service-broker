@@ -157,7 +157,11 @@ fetchApicSwagger(orgId, catalogId,apiId, config) {
 
         .then(result =>  result.json())
         .then(swagger => {
+            console.log("Swagger: "+JSON.stringify(swagger))
             let paths = Object.keys(swagger.paths);
+            let invoke = Object.keys(swagger['x-ibm-configuration'].assembly.execute.invoke);
+            if (invoke && invoke['target-url'] && invoke['target-url'] == '$(request.headers.x-cf-forwarded-url)')
+                console.log("valid invoke found")
             this.setState({
                 swagger: paths,
             });

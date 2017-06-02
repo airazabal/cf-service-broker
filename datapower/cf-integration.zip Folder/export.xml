@@ -1,0 +1,23 @@
+<datapower-configuration version="3"><export-details><description>Exported Configuration</description><user>admin</user><domain>default</domain><comment/><product-id>unknown</product-id><product>IDG</product><display-product>IDG</display-product><model>IBM DataPower Gateway</model><display-model>IBM DataPower Gateway</display-model><device-name>9.42.102.142:9090</device-name><serial-number>NCJG14S</serial-number><firmware-version>IDG.7.6.0.0</firmware-version><display-firmware-version>IDG.7.6.0.0</display-firmware-version><firmware-build>dplane-dev-branch.aww-bld-dplane.040717</firmware-build><firmware-timestamp>2017/04/07 18:13:04</firmware-timestamp><current-date>2017-04-29</current-date><current-time>10:34:20 EDT</current-time><reset-date>2017-04-28</reset-date><reset-time>12:40:14 EDT</reset-time><login-message/><custom-ui-file/></export-details><interface-data><interface name="eth0" type="Ethernet" vers="ipv4" ip-addr="9.42.102.142"/><interface name="eth0" type="Ethernet" vers="ipv6" ip-addr="fe80::5ef3:fcff:fe7a:e548"/><interface name="eth1" type="Ethernet" vers="ipv4" ip-addr="10.255.100.142"/><interface name="eth1" type="Ethernet" vers="ipv6" ip-addr="fe80::5ef3:fcff:fe7a:e54a"/></interface-data><configuration><Domain name="cf-integration" xmlns:dp="http://www.datapower.com/schemas/management" xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+<mAdminState>enabled</mAdminState>
+<BaseDir>cf-integration:</BaseDir>
+<BaseDir>local:</BaseDir>
+<ConfigFile>cf-integration.cfg</ConfigFile>
+<URLMap>
+<http>on</http>
+<https>on</https>
+<snmp>off</snmp>
+<ftp>off</ftp>
+<mailto>off</mailto>
+<mq>off</mq></URLMap>
+<FileMap>
+<CopyFrom>on</CopyFrom>
+<CopyTo>on</CopyTo>
+<Delete>on</Delete>
+<Display>on</Display>
+<Exec>on</Exec>
+<Subdir>on</Subdir></FileMap>
+<ConfigMode>local</ConfigMode>
+<ImportFormat>ZIP</ImportFormat>
+<LocalIPRewrite>on</LocalIPRewrite>
+<MaxChkpoints>3</MaxChkpoints></Domain></configuration><domains><domain name="cf-integration"/></domains></datapower-configuration>

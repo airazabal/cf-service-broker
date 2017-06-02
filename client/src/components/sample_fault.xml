@@ -1,0 +1,12 @@
+<soap:Envelope xmlns:soap=“http://schemas.xmlsoap.org/soap/envelope/“>
+<soap:Body>
+<soap:Fault>
+    <faultcode>soap:Server</faultcode>
+    <faultstring>Error on delete, entity not found for id=56</faultstring>
+    <detail>
+        <ns2:DALFault xmlns:ns2=“http://ws.inventory/“>
+        <code>ERRDAO4001</code>
+        <message>Error on delete, entity not found for id=56</message>
+    </ns2:DALFault>
+</detail>
+</soap:Fault></soap:Body></soap:Envelope>

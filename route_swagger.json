@@ -1,0 +1,78 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "x-ibm-name": "route",
+    "title": "route",
+    "version": "1.0.0"
+  },
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/route",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "clientIdHeader": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-IBM-Client-Id"
+    }
+  },
+  "security": [
+    {
+      "clientIdHeader": []
+    }
+  ],
+  "x-ibm-configuration": {
+    "testable": true,
+    "enforced": true,
+    "cors": {
+      "enabled": true
+    },
+    "assembly": {
+      "execute": [
+        {
+          "invoke": {
+            "target-url": "$(request.headers.x-cf-forwarded-url)"
+          }
+        }
+      ]
+    },
+    "phase": "realized"
+  },
+  "paths": {
+    "/another-route": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "200 OK"
+          }
+        }
+      }
+    },
+    "/route": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "200 OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {},
+  "tags": [],
+  "x-ibm-endpoints": [
+    {
+      "endpointUrl": "https://192.168.225.52/test/sb",
+      "type": [
+        "production",
+        "development"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "planRegistrations": 0,
+  "apiId": "590a67a8e4b01891814ad3d0",
+  "apiName": "route",
+  "apiVersion": "1.0.0",
+  "apiTitle": "route",
+  "apiEndpoints": [{
+    "types": ["production", "development"],
+    "endpointUrl": "https://192.168.225.52/test/sb/route"
+  }],
+  "vendorExtensions": {},
+  "url": "https://192.168.225.100/v1/orgs/58dd024ae4b029aafab2fce1/environments/58dd024ae4b029aafab2fced/apis/590a67a8e4b01891814ad3d0",
+  "dependents": {
+    "PRODUCTVERSION": [{
+      "productName": "route-product",
+      "productVersion": "1.0.0",
+      "productVisibilityMetadata": {
+        "visibility": {
+          "view": {
+            "enabled": true,
+            "type": "public",
+            "tags": [],
+            "orgs": []
+          },
+          "subscribe": {
+            "enabled": true,
+            "type": "authenticated",
+            "tags": [],
+            "orgs": []
+          }
+        }
+      },
+      "planRegistrations": 0,
+      "vendorExtensions": {},
+      "url": "https://192.168.225.100/v1/orgs/58dd024ae4b029aafab2fce1/environments/58dd024ae4b029aafab2fced/products/590a67a8e4b01891814ad3d1",
+      "dependents": {},
+      "updatedAt": "2017-05-03T23:28:42.107+0000",
+      "updatedBy": "irazabal@us.ibm.com",
+      "createdAt": "2017-05-03T23:28:41.033+0000",
+      "createdBy": "irazabal@us.ibm.com",
+      "envId": "58dd024ae4b029aafab2fced",
+      "deploymentState": "published",
+      "deploymentVisibility": {
+        "view": {
+          "enabled": true,
+          "type": "public",
+          "tags": [],
+          "orgs": []
+        },
+        "subscribe": {
+          "enabled": true,
+          "type": "authenticated",
+          "tags": [],
+          "orgs": []
+        }
+      },
+      "documentType": "productVersion",
+      "documentId": "590a67a8e4b01891814ad3d1",
+      "orgId": "58dd024ae4b029aafab2fce1",
+      "id": "590a67a8e4b01891814ad3d1",
+      "deploymentPackageId": "590a67a9e4b01891814ad3dc"
+    }],
+    "PLANVERSION": [{
+      "productName": "route product",
+      "productVersion": "1.0.0",
+      "planId": "route-product:1.0.0:default",
+      "planVersion": 1,
+      "planName": "default",
+      "planDescription": "Default Plan",
+      "planDisplayName": "Default Plan",
+      "planRequiresApproval": false,
+      "planRegistrations": 0,
+      "vendorExtensions": {},
+      "dependents": {},
+      "updatedAt": "2017-05-03T23:28:42.099+0000",
+      "updatedBy": "irazabal@us.ibm.com",
+      "createdAt": "2017-05-03T23:28:41.029+0000",
+      "createdBy": "irazabal@us.ibm.com",
+      "envId": "58dd024ae4b029aafab2fced",
+      "deploymentState": "published",
+      "deploymentVisibility": {
+        "view": {
+          "enabled": true,
+          "type": "public",
+          "tags": [],
+          "orgs": []
+        },
+        "subscribe": {
+          "enabled": true,
+          "type": "authenticated",
+          "tags": [],
+          "orgs": []
+        }
+      },
+      "documentType": "planVersion",
+      "documentVersion": 1,
+      "documentId": "route-product:1.0.0:default",
+      "orgId": "58dd024ae4b029aafab2fce1",
+      "id": "590a67a8e4b01891814ad3d2",
+      "deploymentPackageId": "590a67a9e4b01891814ad3dc"
+    }]
+  },
+  "updatedAt": "2017-05-03T23:28:41.949+0000",
+  "updatedBy": "irazabal@us.ibm.com",
+  "createdAt": "2017-05-03T23:28:41.033+0000",
+  "createdBy": "irazabal@us.ibm.com",
+  "envId": "58dd024ae4b029aafab2fced",
+  "deploymentState": "running",
+  "deploymentVisibility": {
+    "view": {
+      "enabled": true,
+      "type": "public",
+      "tags": [],
+      "orgs": []
+    },
+    "subscribe": {
+      "enabled": true,
+      "type": "authenticated",
+      "tags": [],
+      "orgs": []
+    }
+  },
+  "documentType": "apiVersion",
+  "documentId": "590a67a8e4b01891814ad3d0",
+  "orgId": "58dd024ae4b029aafab2fce1",
+  "id": "590a67a8e4b01891814ad3d0",
+  "deploymentPackageId": "590a67a9e4b01891814ad405"
+}

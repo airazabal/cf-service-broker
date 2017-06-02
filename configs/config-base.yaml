@@ -1,0 +1,11 @@
+---
+PORT: 3000
+logger:
+  level: trace
+apimanager:
+  gatewayServer: 'https://192.168.225.54'
+  managementServer: 'https://192.168.225.100'
+cf:
+  server: 'https://api.bosh-lite.com'
+broker:
+  dashboardUrl: 'https://192.168.86.88:3000'

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'; 
 import { Grid, Row, Col, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import FaCircleONotch from 'react-icons/lib/fa/circle-o-notch';
 import FaCheckSquareO from 'react-icons/lib/fa/check-square-o';

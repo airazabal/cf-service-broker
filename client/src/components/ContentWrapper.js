@@ -179,7 +179,7 @@ fetchApicSwagger(orgId, catalogId,apiId, config) {
       config = this.state.cfConfig;
     }
     if(config.server && config.token) {
-      fetch(`/apps`, {
+      fetch(`/cf/apps`, {
         headers: {
           server: config.server,
           authorization: config.token,
